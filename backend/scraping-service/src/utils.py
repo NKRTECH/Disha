@@ -160,7 +160,8 @@ def save_to_supabase(
     career_path: Optional[str],
     specialization: Optional[str],
     location: Optional[str],
-    university: Optional[str]
+    university: Optional[str],
+    job_id: Optional[str] = None
 ) -> Tuple[bool, str]:
     """
     Save or update data in Supabase search_criteria table
@@ -171,6 +172,7 @@ def save_to_supabase(
         specialization: Specialization filter (e.g., 'Science') or None
         location: Location filter (e.g., 'Delhi') or None
         university: University filter or None
+        job_id: Optional Job ID to update status
     
     Returns:
         Tuple[bool, str]: Success flag and status message
@@ -181,14 +183,29 @@ def save_to_supabase(
             logger.warning(msg)
             return False, msg
 
+        # Initialize Supabase client
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+        def _update_job_status(success: bool, message: str):
+            if job_id:
+                try:
+                    logger.info(f"Updating job {job_id} save status -> success={success}")
+                    # Update the job record (don't chain .select() - not supported in this version)
+                    supabase.table("scrape_jobs").update({
+                        "save_success": success,
+                        "save_message": message
+                    }).eq("id", job_id).execute()
+                    
+                    logger.info(f"Updated job {job_id} save status to {success} with message: {message}")
+                except Exception as e:
+                    logger.error(f"Failed to update job status for {job_id}: {e}")
+
         location_value = (location or "").strip()
         if not location_value:
             msg = "Location is required to save data to Supabase."
             logger.error(msg)
+            _update_job_status(False, msg)
             return False, msg
-
-        # Initialize Supabase client
-        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
         # Prepare the data for search_criteria table
         # Format location as "city, state" if available, or just city
@@ -253,6 +270,7 @@ def save_to_supabase(
                     supabase.table("search_criteria").update(record_data).eq("id", record_id).execute()
                     msg = f"Updated existing record in Supabase (ID: {record_id})"
                     logger.info(msg)
+                    _update_job_status(True, msg)
                     return True, msg
 
             # No matching record found -> insert a new one
@@ -260,10 +278,12 @@ def save_to_supabase(
             if getattr(response, "data", None) and len(response.data) > 0:
                 msg = f"Inserted new record in Supabase (ID: {response.data[0].get('id', 'N/A')})"
                 logger.info(msg)
+                _update_job_status(True, msg)
                 return True, msg
             else:
                 msg = "Supabase insert returned no data"
                 logger.warning(msg)
+                _update_job_status(False, msg)
                 return False, msg
         except Exception as e:
             logger.error(f"Supabase operation failed: {e}")
@@ -272,6 +292,14 @@ def save_to_supabase(
     except Exception as e:
         msg = f"Error saving to Supabase: {e}"
         logger.error(msg)
+        try:
+            if 'supabase' in locals() and supabase and job_id:
+                 supabase.table("scrape_jobs").update({
+                     "save_success": False,
+                     "save_message": msg
+                 }).eq("id", job_id).execute()
+        except:
+            pass
         return False, msg
 
 
@@ -303,7 +331,8 @@ def save_to_json(
     career_path: Optional[str] = None,
     specialization: Optional[str] = None,
     location: Optional[str] = None,
-    university: Optional[str] = None
+    university: Optional[str] = None,
+    job_id: Optional[str] = None
 ):
     """
     Save data to JSON file and optionally to Supabase
@@ -317,6 +346,7 @@ def save_to_json(
         specialization: Specialization filter for Supabase
         location: Location filter for Supabase
         university: University filter for Supabase
+        job_id: Supabase Job ID to update with save status
     """
     os.makedirs(output_dir, exist_ok=True)
     
@@ -347,7 +377,8 @@ def save_to_json(
                 career_path=career_path,
                 specialization=specialization,
                 location=location,
-                university=university
+                university=university,
+                job_id=job_id
             )
             if success:
                 logger.info(supabase_msg)
@@ -369,7 +400,8 @@ def save_data(
     career_path: Optional[str] = None,
     specialization: Optional[str] = None,
     location: Optional[str] = None,
-    university: Optional[str] = None
+    university: Optional[str] = None,
+    job_id: Optional[str] = None
  ):
     """
     Save data in multiple formats
@@ -384,6 +416,7 @@ def save_data(
         specialization: Specialization filter for Supabase
         location: Location filter for Supabase
         university: University filter for Supabase
+        job_id: Supabase Job ID to update with save status
     
     Returns:
         Dictionary mapping format to filepath
@@ -409,7 +442,8 @@ def save_data(
                 career_path=career_path,
                 specialization=specialization,
                 location=location,
-                university=university
+                university=university,
+                job_id=job_id
             )
             if filepath:
                 saved_files['json'] = filepath

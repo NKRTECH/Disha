@@ -72,6 +72,8 @@ Note: Use 'null' for filters you want to skip
                         help='Scraping engine to use (default: selenium)')
     parser.add_argument('--output', '-o',
                         help='Override base filename (without extension). Defaults to filters combination.')
+    parser.add_argument('--job-id',
+                        help='Supabase Job ID to update with save status')
     
     return parser.parse_args() 
 
@@ -156,7 +158,8 @@ def main():
                     career_path=course_category,
                     specialization=specialization,
                     location=city,
-                    university=university
+                    university=university,
+                    job_id=args.job_id
                 )
                 
                 logger.info(f"\n[OK] Success!")
@@ -257,7 +260,8 @@ def main():
                     career_path=course_category,
                     specialization=specialization,
                     location=city,
-                    university=university
+                    university=university,
+                    job_id=args.job_id
                 )
                 
                 logger.info(f"\n[OK] Success!")

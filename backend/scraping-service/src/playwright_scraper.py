@@ -39,24 +39,65 @@ class PlaywrightScraper:
         degree_type = ""
         entrance_exams = ""
         
+        # 1. Extract Fees
+        # Strategy A: Look for the Indian Rupee icon (fa-indian-rupee-sign)
         try:
-            if card.locator("li.current-fees").count() > 0:
-                fees = card.locator("li.current-fees").first.text_content().replace('₹', '').strip()
-        except Exception:
-            pass
+            rupee_icon = card.locator(".college-basic-details i.fa-indian-rupee-sign").first
+            if rupee_icon.count() > 0:
+                # The text is in the parent <li>
+                fees_text = rupee_icon.locator("xpath=..").text_content()
+                # Clean up artifacts like 'Fetch fees' which might be present in the DOM
+                fees = fees_text.replace('₹', '').replace('Fetch fees', '').strip()
+        except Exception as e:
+            logger.warning(f"Failed to extract fees via icon: {e}")
 
+        # Strategy B: Fallback to 'li.current-fees' class
+        if not fees:
+            try:
+                if card.locator("li.current-fees").count() > 0:
+                    fees = card.locator("li.current-fees").first.text_content().replace('₹', '').strip()
+            except Exception as e:
+                logger.warning(f"Failed to extract fees via class: {e}")
+
+        # 2. Extract Duration (fa-calendar-days)
         try:
-            lis = card.locator("li").all()
-            for li in lis:
-                txt = li.text_content().strip()
-                if "year" in txt.lower():
-                    duration = txt
-                elif "degree" in txt.lower():
-                    degree_type = txt
-                elif "exam" in txt.lower():
-                    entrance_exams = txt.replace("Exams:", "").strip()
-        except Exception:
-            pass
+            icon = card.locator(".college-basic-details i.fa-calendar-days").first
+            if icon.count() > 0:
+                duration = icon.locator("xpath=..").text_content().strip()
+        except Exception as e:
+            logger.warning(f"Failed to extract duration via icon: {e}")
+
+        # 3. Extract Degree Type (fa-chart-simple)
+        try:
+            icon = card.locator(".college-basic-details i.fa-chart-simple").first
+            if icon.count() > 0:
+                degree_type = icon.locator("xpath=..").text_content().strip()
+        except Exception as e:
+            logger.warning(f"Failed to extract degree type via icon: {e}")
+
+        # 4. Extract Entrance Exams (fa-pen)
+        try:
+            icon = card.locator(".college-basic-details i.fa-pen").first
+            if icon.count() > 0:
+                raw_text = icon.locator("xpath=..").text_content().strip()
+                entrance_exams = raw_text.replace("Exams:", "").strip()
+        except Exception as e:
+            logger.warning(f"Failed to extract entrance exams via icon: {e}")
+
+        # Fallback: Iterate all LIs if any field is still missing
+        if not (duration and degree_type and entrance_exams):
+            try:
+                lis = card.locator("li").all()
+                for li in lis:
+                    txt = li.text_content().strip()
+                    if not duration and "year" in txt.lower():
+                        duration = txt
+                    elif not degree_type and "degree" in txt.lower():
+                        degree_type = txt
+                    elif not entrance_exams and "exam" in txt.lower():
+                        entrance_exams = txt.replace("Exams:", "").strip()
+            except Exception as e:
+                logger.warning(f"Failed to extract other course details (fallback): {e}")
 
         details = {
             "Fees": fees,
@@ -121,7 +162,7 @@ class PlaywrightScraper:
 
         if ensure_dropdown_visible():
             items_count = dropdown_locator.locator("li[data-search]").count()
-            logger.info(f"  DOM fallback: iterating {items_count} courses")
+            logger.info(f"  Dropdown extraction: iterating {items_count} courses")
 
             for idx in range(items_count):
                 success = False
@@ -152,7 +193,8 @@ class PlaywrightScraper:
                         course_name = re.sub(r'\s+', ' ', course_name.strip())
                         
                         item.click(timeout=2000)
-                        page.wait_for_timeout(200)
+                        # Wait for UI update (500ms is usually sufficient for AJAX)
+                        page.wait_for_timeout(500)
 
                         details = self._extract_course_details_from_card(card)
                         ordered_details = {"Course Name": course_name}
@@ -162,7 +204,7 @@ class PlaywrightScraper:
                         break
                     except Exception as e:
                         logger.debug(
-                            f"  DOM fallback: attempt {attempt + 1} failed for course idx {idx}: {str(e)[:120]}"
+                            f"  Dropdown extraction: attempt {attempt + 1} failed for course idx {idx}: {str(e)[:120]}"
                         )
                         try:
                             page.mouse.click(10, 10)
@@ -170,9 +212,9 @@ class PlaywrightScraper:
                         except Exception:
                             pass
                 if not success:
-                    logger.warning(f"  DOM fallback: skipping course idx {idx} after repeated failures")
+                    logger.warning(f"  Dropdown extraction: skipping course idx {idx} after repeated failures")
         else:
-            logger.warning("  DOM fallback: dropdown never became visible; relying on current course only")
+            logger.warning("  Dropdown extraction: dropdown never became visible; relying on current course only")
 
         return courses
 
@@ -500,12 +542,23 @@ class PlaywrightScraper:
                         match = re.search(r'(\d+)\s+Course', courses_text)
                         college_data["Total Courses"] = match.group(1) if match else ""
 
-                    type_elems = card.locator("li").all()
-                    for elem in type_elems:
-                        text = elem.inner_text().strip()
-                        if any(k in text.lower() for k in ['deemed', 'private', 'government', 'public']):
-                            college_data["College Type"] = text
-                            break
+                    # Extract College Type (Private/Government/etc)
+                    # Strategy A: Look for fa-graduation-cap icon
+                    try:
+                        grad_icon = card.locator(".college-basic-details i.fa-graduation-cap").first
+                        if grad_icon.count() > 0:
+                            college_data["College Type"] = grad_icon.locator("xpath=..").text_content().strip()
+                    except Exception as e:
+                        logger.warning(f"  Failed to extract college type via icon: {e}")
+
+                    # Strategy B: Fallback to text search in LIs
+                    if not college_data["College Type"]:
+                        type_elems = card.locator("li").all()
+                        for elem in type_elems:
+                            text = elem.inner_text().strip()
+                            if any(k in text.lower() for k in ['deemed', 'private', 'government', 'public']):
+                                college_data["College Type"] = text
+                                break
 
                     try:
                         if card.locator("text.percentage").count() > 0:
@@ -523,7 +576,7 @@ class PlaywrightScraper:
                     if dom_courses:
                         college_data["Courses"] = dom_courses
                     else:
-                        logger.warning("  DOM fallback returned 0 courses; leaving list empty for now")
+                        logger.warning("  Dropdown extraction returned 0 courses; leaving list empty for now")
 
                     missing_formats = [
                         fmt for fmt in formats_lower

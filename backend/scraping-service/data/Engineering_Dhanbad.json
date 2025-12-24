@@ -33,7 +33,7 @@
         },
         {
           "name": "B.Tech. in Computer Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -43,7 +43,7 @@
         },
         {
           "name": "B.Tech. in Information Technology",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -53,7 +53,7 @@
         },
         {
           "name": "B.Tech. in Mechanical Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -63,7 +63,7 @@
         },
         {
           "name": "B.Tech. in Chemical Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -73,7 +73,7 @@
         },
         {
           "name": "B.Tech. in Civil Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -83,7 +83,7 @@
         },
         {
           "name": "B.Tech. in Metallurgical Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -93,7 +93,7 @@
         },
         {
           "name": "B.Tech. in Mining Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -103,7 +103,7 @@
         },
         {
           "name": "B.Tech. in Production and Industrial Engineering",
-          "annual_fees": "",
+          "annual_fees": "16900",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -113,7 +113,7 @@
         },
         {
           "name": "Bachelor of Technology (B.Tech. Lateral Entry)",
-          "annual_fees": "",
+          "annual_fees": "87036",
           "duration": "3 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -122,7 +122,7 @@
         },
         {
           "name": "M.Tech. in Production Technology and Management",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -131,7 +131,7 @@
         },
         {
           "name": "M.Tech. in Soil Mechanics and Foundation Engineering",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -140,7 +140,7 @@
         },
         {
           "name": "M.Tech. in Power Systems",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -149,7 +149,7 @@
         },
         {
           "name": "M.Tech. in Structural Design",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -158,28 +158,28 @@
         },
         {
           "name": "Ph.D. in Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "3 years",
-          "degree_level": "",
+          "degree_level": "PhD",
           "entrance_exams": []
         },
         {
           "name": "M.Tech. in Instrumentation and Control (applied Instrumentation)",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "M.Tech. in Material Engineering (Nanotechnology)",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "M.Tech. in Process Metallurgy",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -188,7 +188,7 @@
         },
         {
           "name": "M.Tech. in Control System Engineering",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -197,7 +197,7 @@
         },
         {
           "name": "M.Tech. in Machine Design",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -206,7 +206,7 @@
         },
         {
           "name": "M.Tech. in Heat Power Engineering",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -215,7 +215,7 @@
         },
         {
           "name": "M.Tech. in Metallurgical and Materials Engineering",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -224,7 +224,7 @@
         },
         {
           "name": "M.Tech. in Plant Design",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -233,7 +233,7 @@
         },
         {
           "name": "M.Tech. in Physical Metallurgy",
-          "annual_fees": "",
+          "annual_fees": "11950",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -265,7 +265,7 @@
         },
         {
           "name": "B.Tech. in Petroleum Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -275,7 +275,7 @@
         },
         {
           "name": "B.Tech. in Environmental Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -285,7 +285,7 @@
         },
         {
           "name": "B.Tech. in Electrical Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -295,7 +295,7 @@
         },
         {
           "name": "B.Tech. in Mechanical Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -305,7 +305,7 @@
         },
         {
           "name": "B.Tech. in Mining Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -315,7 +315,7 @@
         },
         {
           "name": "B.Tech. in Chemical Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -325,7 +325,7 @@
         },
         {
           "name": "B.Tech. in Civil Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -335,7 +335,7 @@
         },
         {
           "name": "B.Tech. in Electronics and Communication Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -345,7 +345,7 @@
         },
         {
           "name": "B.Tech. in Mining Machinery Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -355,7 +355,7 @@
         },
         {
           "name": "Integrated M.Tech. in Mathematics and Computing",
-          "annual_fees": "",
+          "annual_fees": "830000",
           "duration": "5 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -365,7 +365,7 @@
         },
         {
           "name": "B.Tech. + MBA (Dual Degree)",
-          "annual_fees": "",
+          "annual_fees": "830000",
           "duration": "5 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -375,7 +375,7 @@
         },
         {
           "name": "B.Tech. + M.Tech. in Computer Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "830000",
           "duration": "5 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -385,7 +385,7 @@
         },
         {
           "name": "B.Tech. in Electronics and Instrumentation Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -395,7 +395,7 @@
         },
         {
           "name": "B.Tech. in Engineering Physics",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -405,14 +405,14 @@
         },
         {
           "name": "Executive Master of Technology (M.Tech.)",
-          "annual_fees": "",
+          "annual_fees": "263300",
           "duration": "3 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Integrated M.Tech. in Applied Geophysics",
-          "annual_fees": "",
+          "annual_fees": "830000",
           "duration": "5 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -422,7 +422,7 @@
         },
         {
           "name": "M.Tech. in Power System Engineering",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -431,7 +431,7 @@
         },
         {
           "name": "M.Tech. in Computer Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -441,7 +441,7 @@
         },
         {
           "name": "M.Tech. in Mining Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -451,7 +451,7 @@
         },
         {
           "name": "M.Tech. in Data Analytics",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -461,7 +461,7 @@
         },
         {
           "name": "B.Tech. in Mineral and Metallurgical Engineering",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -471,7 +471,7 @@
         },
         {
           "name": "M.Tech. in Pharmaceutical Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -481,7 +481,7 @@
         },
         {
           "name": "M.Tech. in Industrial Engineering and Management",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -491,7 +491,7 @@
         },
         {
           "name": "M.Tech. in Geomatics",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -501,7 +501,7 @@
         },
         {
           "name": "M.Tech. in VLSI Design",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -510,7 +510,7 @@
         },
         {
           "name": "M.Tech. in Mechanical Engineering (Machine Design)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -520,7 +520,7 @@
         },
         {
           "name": "Integrated M.Tech. in Applied Geology",
-          "annual_fees": "",
+          "annual_fees": "830000",
           "duration": "5 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -530,7 +530,7 @@
         },
         {
           "name": "M.Tech. in Civil Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -540,7 +540,7 @@
         },
         {
           "name": "B.Tech. in Mathematics and Computing",
-          "annual_fees": "",
+          "annual_fees": "800000",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -549,7 +549,7 @@
         },
         {
           "name": "M.Tech. in Electronics Engineering (Communication & Signal Processing) (SP)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -559,7 +559,7 @@
         },
         {
           "name": "M.Tech. in Petroleum Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -569,7 +569,7 @@
         },
         {
           "name": "M.Tech. in Electrical Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -579,7 +579,7 @@
         },
         {
           "name": "M.Tech. in Fuel Mineral and Metallurgical Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -589,7 +589,7 @@
         },
         {
           "name": "M.Tech. in Environmental Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -599,7 +599,7 @@
         },
         {
           "name": "M.Tech. in Electronics Engineering (Optical Communication & Integrated Photonics) (OC)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -608,7 +608,7 @@
         },
         {
           "name": "M.Tech. in Chemical Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -618,7 +618,7 @@
         },
         {
           "name": "M.Tech. in Tunnelling and Underground Space Technology",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -628,7 +628,7 @@
         },
         {
           "name": "M.Tech. in Earthquake Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -638,7 +638,7 @@
         },
         {
           "name": "M.Tech. in Mining Machinery Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -648,14 +648,14 @@
         },
         {
           "name": "M.tech. in Artificial Intelligence and Data Science",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "M.Tech. in Electronics Engineering (RF & Microwave Engineering)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -665,7 +665,7 @@
         },
         {
           "name": "M.Tech. in Mechanical Engineering (Thermal Engineering)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -675,7 +675,7 @@
         },
         {
           "name": "M.Tech. in Electronics Engineering (VLSI Design)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -685,7 +685,7 @@
         },
         {
           "name": "M.Tech. in Engineering Geology",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -695,14 +695,14 @@
         },
         {
           "name": "Integrated B.Sc. + M.Sc in Chemical Science",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "5 years",
           "degree_level": "UG Degree",
           "entrance_exams": []
         },
         {
           "name": "M.Tech. in Mechanical Engineering with Spl in Manufacturing Engineering",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -711,7 +711,7 @@
         },
         {
           "name": "M.Tech. in Mechanical Engineering (Manufacturing Engineering)",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -721,16 +721,16 @@
         },
         {
           "name": "M.Tech. in Metallurgical Engineering",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Ph.D. in Mining Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -739,7 +739,7 @@
         },
         {
           "name": "M.Tech. in Mechanical Engineering with Spl in Thermal Engineering",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -748,9 +748,9 @@
         },
         {
           "name": "Ph.D. in Computer Science and Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -759,23 +759,23 @@
         },
         {
           "name": "M.Tech. in Transportation Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Executive M. Tech in Microelectronics and Semiconductor Technology",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "3 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Ph.D. in Electrical Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -784,9 +784,9 @@
         },
         {
           "name": "Ph.D. in Civil Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -795,7 +795,7 @@
         },
         {
           "name": "M.Tech. in Mechanical Engineering with Spl in Machine Design",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -804,9 +804,9 @@
         },
         {
           "name": "Ph.D. in Mechanical Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -815,16 +815,16 @@
         },
         {
           "name": "M.Tech. in Water Resources Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Ph.D. in Fuel, Mineral and Metallurgical Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -833,16 +833,16 @@
         },
         {
           "name": "Executive M. Tech in Geomatics",
-          "annual_fees": "",
+          "annual_fees": "145800",
           "duration": "3 years",
           "degree_level": "PG Degree",
           "entrance_exams": []
         },
         {
           "name": "Ph.D. in Electronics Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -851,7 +851,7 @@
         },
         {
           "name": "M.Tech. in Geoexploration",
-          "annual_fees": "",
+          "annual_fees": "60000",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -861,9 +861,9 @@
         },
         {
           "name": "Ph.D. in Chemical Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET"
@@ -871,9 +871,9 @@
         },
         {
           "name": "Ph.D. in Industrial Engineering and Management",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -882,9 +882,9 @@
         },
         {
           "name": "Ph.D. in Petroleum Engineering",
-          "annual_fees": "",
+          "annual_fees": "143550",
           "duration": "3 years",
-          "degree_level": "B.Tech. + MBA (Dual Degree)",
+          "degree_level": "PhD",
           "entrance_exams": [
             "GATE",
             "UGC NET",
@@ -893,7 +893,7 @@
         },
         {
           "name": "M.Tech. in Mineral Engineering",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -902,7 +902,7 @@
         },
         {
           "name": "M.Tech. in Geotechnical Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -911,7 +911,7 @@
         },
         {
           "name": "M.Tech. in Optoelectronics and Optical Communication Engineering",
-          "annual_fees": "",
+          "annual_fees": "122100",
           "duration": "2 years",
           "degree_level": "PG Degree",
           "entrance_exams": [
@@ -943,7 +943,7 @@
         },
         {
           "name": "B.Tech. in Civil Engineering",
-          "annual_fees": "",
+          "annual_fees": "276800",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -953,7 +953,7 @@
         },
         {
           "name": "B.Tech. in Computer Science Engineering",
-          "annual_fees": "",
+          "annual_fees": "276800",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -963,7 +963,7 @@
         },
         {
           "name": "B.Tech. in Electronics and Communication Engineering",
-          "annual_fees": "",
+          "annual_fees": "276800",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -973,7 +973,7 @@
         },
         {
           "name": "B.Tech. in Electrical Engineering",
-          "annual_fees": "",
+          "annual_fees": "276800",
           "duration": "4 years",
           "degree_level": "UG Degree",
           "entrance_exams": [
@@ -983,16 +983,16 @@
         },
         {
           "name": "B.Tech. in Computer Science Engineering (Lateral Entry)",
-          "annual_fees": "",
+          "annual_fees": "207600",
           "duration": "3 years",
           "degree_level": "UG Degree",
           "entrance_exams": []
         },
         {
           "name": "Diploma in Mechanical Engineering",
-          "annual_fees": "",
+          "annual_fees": "N/A",
           "duration": "3 years",
-          "degree_level": "",
+          "degree_level": "Diploma",
           "entrance_exams": [
             "Jharkhand Polytechnic"
           ]

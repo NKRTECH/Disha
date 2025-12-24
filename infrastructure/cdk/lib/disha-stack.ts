@@ -34,7 +34,7 @@ export class DishaStack extends cdk.Stack {
     // Stack-level outputs
     new cdk.CfnOutput(this, 'Environment', {
       value: config.environment,
-      description: 'Environment name',
+      description: 'Environment name', 
     });
 
     new cdk.CfnOutput(this, 'WebsiteUrl', {
