@@ -1,0 +1,372 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+==created
+CREATE TABLE public.career_cluster (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT career_cluster_pkey PRIMARY KEY (id)
+);
+
+#not reqd
+CREATE TABLE public.career_options (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  careerpath_id uuid,
+  job_title text NOT NULL,
+  CONSTRAINT career_options_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.career_path (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  description jsonb,
+  name character varying,
+  role_responsibilities jsonb,
+  education_required jsonb,
+  salary_demand jsonb,
+  career_options jsonb,
+  key_skills_required jsonb,
+  career_cluster_id uuid,
+  career_stream_id uuid,
+  slug text NOT NULL UNIQUE,
+  subjects jsonb,
+  tags jsonb DEFAULT '[]'::jsonb,
+  CONSTRAINT career_path_pkey PRIMARY KEY (id),
+  CONSTRAINT career_path_career_cluster_id_fkey FOREIGN KEY (career_cluster_id) REFERENCES public.career_cluster(id),
+  CONSTRAINT career_path_career_stream_id_fkey FOREIGN KEY (career_stream_id) REFERENCES public.stream(id)
+);
+
+#not reqd
+CREATE TABLE public.career_path1_backup (
+  id uuid,
+  description jsonb,
+  name character varying,
+  role_responsibilities jsonb,
+  education_required jsonb,
+  salary_demand jsonb,
+  career_options jsonb,
+  key_skills_required jsonb
+);
+
+#not reqd
+CREATE TABLE public.career_path_backup (
+  id uuid,
+  name text,
+  description text,
+  highlights text,
+  type text,
+  career_stream_id uuid,
+  career_cluster_id uuid,
+  created_at timestamp with time zone,
+  slug text,
+  category text,
+  snapshot text,
+  salary_starting text,
+  salary_experienced text,
+  salary_senior text,
+  industry_demand text,
+  recommended_stream text,
+  student_path_example text,
+  education_pathway jsonb,
+  entrance_exams_list jsonb,
+  grade_wise_advice jsonb,
+  essential_subjects jsonb,
+  optional_subjects jsonb
+);
+
+#not reqd
+CREATE TABLE public.career_paths_staging (
+  id bigint NOT NULL DEFAULT nextval('career_paths_staging_id_seq'::regclass),
+  slug text NOT NULL UNIQUE,
+  career_path text,
+  description jsonb,
+  role_responsibilities jsonb,
+  key_skills_required jsonb,
+  career_options jsonb,
+  salary_demand jsonb,
+  education_required jsonb,
+  best_colleges jsonb,
+  exploration_questions jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  refined_description text,
+  CONSTRAINT career_paths_staging_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.careerpath_courses (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  careerpath_id uuid NOT NULL,
+  course_id uuid NOT NULL,
+  is_primary boolean DEFAULT false,
+  notes text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT careerpath_courses_pkey PRIMARY KEY (id),
+  CONSTRAINT careerpath_courses_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.course(id),
+  CONSTRAINT careerpath_courses_careerpath_id_fkey FOREIGN KEY (careerpath_id) REFERENCES public.career_path(id)
+);
+
+#not reqd
+CREATE TABLE public.careerpath_skills (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  careerpath_id uuid NOT NULL,
+  skill_id uuid NOT NULL,
+  skill_category text,
+  custom_description text,
+  CONSTRAINT careerpath_skills_pkey PRIMARY KEY (id),
+  CONSTRAINT careerpath_skills_skill_id_fkey FOREIGN KEY (skill_id) REFERENCES public.skill(id)
+);
+
+#not reqd
+CREATE TABLE public.careerpath_subjects (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  careerpath_id uuid NOT NULL,
+  subject_id uuid NOT NULL,
+  is_mandatory USER-DEFINED NOT NULL,
+  CONSTRAINT careerpath_subjects_pkey PRIMARY KEY (id),
+  CONSTRAINT careerpath_subjects_subject_id_fkey FOREIGN KEY (subject_id) REFERENCES public.subject(id)
+);
+
+#not reqd
+CREATE TABLE public.careerpath_tags (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  careerpath_id uuid,
+  tag text NOT NULL,
+  CONSTRAINT careerpath_tags_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.college (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL UNIQUE,
+  description text NOT NULL,
+  address text NOT NULL,
+  city text NOT NULL,
+  state text NOT NULL,
+  zip_code text NOT NULL,
+  website text NOT NULL,
+  email text NOT NULL,
+  phone text NOT NULL,
+  scholarshipdetails text NOT NULL,
+  rating numeric NOT NULL,
+  type text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT college_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.college_courses (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  college_id uuid NOT NULL,
+  course_id uuid NOT NULL,
+  annual_fees text,
+  total_fees text,
+  seats text,
+  duration_override text,
+  admission_process text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT college_courses_pkey PRIMARY KEY (id),
+  CONSTRAINT college_courses_college_id_fkey FOREIGN KEY (college_id) REFERENCES public.college(id),
+  CONSTRAINT college_courses_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.course(id)
+);
+
+#created
+CREATE TABLE public.course (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL UNIQUE,
+  description text NOT NULL,
+  duration text NOT NULL,
+  degree_level text,
+  seats integer,
+  annual_fees text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT course_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.course_career_path (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  course_id uuid NOT NULL,
+  career_path_id uuid NOT NULL,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT course_career_path_pkey PRIMARY KEY (id),
+  CONSTRAINT course_career_path_career_path_id_fkey FOREIGN KEY (career_path_id) REFERENCES public.career_path(id),
+  CONSTRAINT course_career_path_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.course(id)
+);
+
+#created
+CREATE TABLE public.course_entrance_exams (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  course_id uuid NOT NULL,
+  entranceexam_id uuid NOT NULL,
+  CONSTRAINT course_entrance_exams_pkey PRIMARY KEY (id),
+  CONSTRAINT course_entrance_exams_entranceexam_id_fkey FOREIGN KEY (entranceexam_id) REFERENCES public.entrance_exam(id),
+  CONSTRAINT course_entrance_exams_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.course(id)
+);
+
+#not reqd
+CREATE TABLE public.course_skills (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  course_id uuid NOT NULL,
+  skill_id uuid NOT NULL,
+  CONSTRAINT course_skills_pkey PRIMARY KEY (id),
+  CONSTRAINT course_skills_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.course(id),
+  CONSTRAINT course_skills_skill_id_fkey FOREIGN KEY (skill_id) REFERENCES public.skill(id)
+);
+
+#created
+CREATE TABLE public.entrance_exam (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  eligibility text,
+  exam_pattern text,
+  difficulty_level text CHECK (difficulty_level = ANY (ARRAY['Easy'::text, 'Medium'::text, 'Hard'::text, 'Very Hard'::text, NULL::text])),
+  exam_dates text,
+  official_website text,
+  CONSTRAINT entrance_exam_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.scrape_jobs (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  updated_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  status text NOT NULL DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'processing'::text, 'completed'::text, 'failed'::text])),
+  course_category text,
+  specialization text,
+  city text,
+  university text,
+  engine text DEFAULT 'playwright'::text,
+  headless boolean DEFAULT true,
+  result_summary text,
+  error_message text,
+  output_files jsonb,
+  save_to_supabase boolean DEFAULT false,
+  save_message text,
+  save_success boolean,
+  CONSTRAINT scrape_jobs_pkey PRIMARY KEY (id)
+);
+#created
+CREATE TABLE public.search_criteria (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  location text NOT NULL,
+  career_path text,
+  specialization text,
+  university text,
+  llm_json jsonb NOT NULL,
+  created_at timestamp without time zone DEFAULT now(),
+  CONSTRAINT search_criteria_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.skill (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  category text CHECK (category = ANY (ARRAY['technical'::text, 'soft'::text, NULL::text])),
+  description text,
+  CONSTRAINT skill_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.st_career_path (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  career_path text,
+  json_data jsonb,
+  CONSTRAINT st_career_path_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.st_college (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text NOT NULL,
+  address text,
+  city text,
+  state text,
+  zip_code text,
+  website text,
+  email text,
+  phone text,
+  scholarshipdetails text,
+  rating numeric,
+  type text,
+  confidence numeric,
+  confidence_level text,
+  evidence_status text,
+  evidence_urls text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT st_college_pkey PRIMARY KEY (id)
+);
+
+#created
+CREATE TABLE public.st_college_courses (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  college_id uuid NOT NULL,
+  course_id uuid NOT NULL,
+  CONSTRAINT st_college_courses_pkey PRIMARY KEY (id),
+  CONSTRAINT st_college_courses_college_id_fkey FOREIGN KEY (college_id) REFERENCES public.st_college(id),
+  CONSTRAINT st_college_courses_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.st_course(id)
+);
+
+#created
+CREATE TABLE public.st_course (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text,
+  duration text,
+  degree_level text,
+  seats integer,
+  annual_fees text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT st_course_pkey PRIMARY KEY (id)
+);
+
+#not required
+CREATE TABLE public.st_course_career_path (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  course_id uuid NOT NULL,
+  career_path_id uuid NOT NULL,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT st_course_career_path_pkey PRIMARY KEY (id),
+  CONSTRAINT st_course_career_path_career_path_id_fkey FOREIGN KEY (career_path_id) REFERENCES public.career_path(id),
+  CONSTRAINT st_course_career_path_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.st_course(id)
+);
+#not required
+CREATE TABLE public.st_course_entrance_exams (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  course_id uuid NOT NULL,
+  entranceexam_id uuid NOT NULL,
+  CONSTRAINT st_course_entrance_exams_pkey PRIMARY KEY (id),
+  CONSTRAINT st_course_entrance_exams_entranceexam_id_fkey FOREIGN KEY (entranceexam_id) REFERENCES public.st_entrance_exam(id),
+  CONSTRAINT st_course_entrance_exams_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.st_course(id)
+);
+
+#not required
+CREATE TABLE public.st_entrance_exam (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT st_entrance_exam_pkey PRIMARY KEY (id)
+);
+
+==created
+CREATE TABLE public.stream (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT stream_pkey PRIMARY KEY (id)
+);
+
+==created
+CREATE TABLE public.subject (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT subject_pkey PRIMARY KEY (id)
+);
