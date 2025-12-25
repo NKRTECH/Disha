@@ -1,7 +1,11 @@
 import logging
 import json
 import sys
+import os
 from datetime import datetime
+
+# Check if running in serverless mode (read-only file system)
+SERVERLESS_MODE = os.getenv("SERVERLESS_MODE", "false").lower() in ("true", "1", "yes")
 
 class JsonFormatter(logging.Formatter):
     """
@@ -37,9 +41,15 @@ def setup_logger(name: str = "scraping_service", level: int = logging.INFO):
         console_handler.setFormatter(JsonFormatter())
         logger.addHandler(console_handler)
         
-        # File Handler
-        file_handler = logging.FileHandler("scraping_service.log")
-        file_handler.setFormatter(JsonFormatter())
-        logger.addHandler(file_handler)
+        # File Handler - skip in serverless mode (read-only file system)
+        if not SERVERLESS_MODE:
+            try:
+                file_handler = logging.FileHandler("scraping_service.log")
+                file_handler.setFormatter(JsonFormatter())
+                logger.addHandler(file_handler)
+            except OSError:
+                # Fallback: ignore file logging errors on read-only file systems
+                pass
+            
         
     return logger

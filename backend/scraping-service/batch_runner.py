@@ -16,7 +16,8 @@ from src.config import (
     MAIN_URL, 
     COLLEGE_SEARCH_URL,
     HEADLESS,
-    OUTPUT_DIR
+    OUTPUT_DIR,
+    SERVERLESS_MODE
 )
 from src.auth import create_driver, login, manual_login
 from src.downloader import get_all_results, try_download_report, build_search_url
@@ -370,6 +371,11 @@ class BatchRunner:
     
     def save_summary_report(self):
         """Save execution summary to a file"""
+        # Skip file writes in serverless mode (read-only file system)
+        if SERVERLESS_MODE:
+            logger.info("SERVERLESS_MODE: Skipping summary report file write")
+            return
+        
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_filename = f"batch_summary_{timestamp}.txt"
         report_path = os.path.join(OUTPUT_DIR, report_filename)

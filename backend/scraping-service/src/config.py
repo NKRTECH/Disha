@@ -27,6 +27,9 @@ WAIT_TIMEOUT = 10  # Timeout in seconds for element waits
 OUTPUT_DIR = "data"
 CSV_FILENAME = "colleges_data.csv"
 
+# Deployment mode - set SERVERLESS_MODE=true for read-only file systems (Leapcell, AWS Lambda, etc.)
+SERVERLESS_MODE = os.getenv("SERVERLESS_MODE", "false").lower() in ("true", "1", "yes")
+
 # Scraping settings
 MAX_SCROLLS = 50  # Maximum number of scrolls to load all colleges
 MAX_PAGES = 10    # Maximum number of pages to scrape (pagination)

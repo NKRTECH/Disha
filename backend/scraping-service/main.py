@@ -23,7 +23,7 @@ from src.config import (
 )
 from src.auth import create_driver, login, manual_login
 from src.downloader import get_all_results, try_download_report, build_search_url
-from src.utils import save_data, load_existing_colleges
+from src.utils import save_data, load_existing_colleges, save_to_staging_tables, transform_college_data, deduplicate_colleges
 from src.playwright_scraper import PlaywrightScraper
 from src.logger import setup_logger
 
@@ -65,7 +65,10 @@ Note: Use 'null' for filters you want to skip
                         help='Use manual login instead of automatic (Selenium only)')
     parser.add_argument('--save',
                         action='store_true',
-                        help='Save scraped data to Supabase')
+                        help='Save scraped data to Supabase (search_criteria table)')
+    parser.add_argument('--save-staging',
+                        action='store_true',
+                        help='Save scraped data to staging tables (st_college, st_course, st_college_courses)')
     parser.add_argument('--engine',
                         choices=['selenium', 'playwright'],
                         default='selenium',
@@ -167,8 +170,44 @@ def main():
                 logger.info(f"  - Total colleges found: {len(colleges)}")
                 for fmt, filepath in saved_files.items():
                     logger.info(f"  - {fmt.upper()} file: {filepath}")
+                
+                # Save to staging tables if requested
+                if args.save_staging:
+                    logger.info("\nStep 6: Saving to staging tables (st_college, st_course, st_college_courses)...")
+                    deduped = deduplicate_colleges(colleges)
+                    transformed = transform_college_data(deduped)
+                    json_data = {"colleges": transformed}
+                    success, msg = save_to_staging_tables(json_data, job_id=args.job_id)
+                    if success:
+                        logger.info(f"  ✅ {msg}")
+                    else:
+                        logger.error(f"  ❌ {msg}")
             else:
-                logger.warning("\n[WARN]  No data found using Playwright engine.")
+                logger.warning("\n[WARN]  No NEW data scraped (all colleges already in local files).")
+                
+                # If --save-staging is requested, try to load existing JSON and push it
+                if args.save_staging:
+                    json_path = os.path.join(OUTPUT_DIR, f"{base_filename}.json")
+                    if os.path.exists(json_path):
+                        logger.info(f"\nLoading existing data from {json_path} to push to staging tables...")
+                        try:
+                            import json as json_module
+                            with open(json_path, 'r', encoding='utf-8') as f:
+                                existing_data = json_module.load(f)
+                            
+                            if existing_data.get("colleges"):
+                                logger.info(f"Found {len(existing_data['colleges'])} colleges in existing file.")
+                                success, msg = save_to_staging_tables(existing_data, job_id=args.job_id)
+                                if success:
+                                    logger.info(f"  ✅ {msg}")
+                                else:
+                                    logger.error(f"  ❌ {msg}")
+                            else:
+                                logger.warning("Existing JSON file has no colleges data.")
+                        except Exception as e:
+                            logger.error(f"Failed to load existing JSON: {e}")
+                    else:
+                        logger.warning(f"No existing JSON file found at {json_path}")
                 
         except Exception as e:
             logger.error(f"\n[ERROR] Playwright Error: {e}")

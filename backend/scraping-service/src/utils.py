@@ -7,7 +7,7 @@ import json
 import os
 from typing import List, Dict, Set, Optional, Any, Tuple
 from supabase import create_client, Client
-from src.config import SUPABASE_URL, SUPABASE_KEY
+from src.config import SUPABASE_URL, SUPABASE_KEY, SERVERLESS_MODE
 from src.logger import setup_logger
 
 logger = setup_logger()
@@ -303,8 +303,170 @@ def save_to_supabase(
         return False, msg
 
 
+def save_to_staging_tables(
+    json_data: Dict,
+    job_id: Optional[str] = None
+) -> Tuple[bool, str]:
+    """
+    Save scraped data to staging tables (st_college, st_course, st_college_courses).
+    
+    This normalizes the raw JSON data into proper relational tables:
+    - st_college: College records
+    - st_course: Course records (deduplicated by name)
+    - st_college_courses: Many-to-many mapping
+    
+    Args:
+        json_data: The JSON data with 'colleges' key containing college list
+        job_id: Optional Job ID to update status
+    
+    Returns:
+        Tuple[bool, str]: Success flag and status message
+    """
+    try:
+        if not SUPABASE_URL or not SUPABASE_KEY:
+            msg = "Supabase credentials not found. Skipping staging table save."
+            logger.warning(msg)
+            return False, msg
+
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        
+        colleges_data = json_data.get("colleges", [])
+        if not colleges_data:
+            msg = "No colleges found in JSON data"
+            logger.warning(msg)
+            return False, msg
+        
+        logger.info(f"Saving {len(colleges_data)} colleges to staging tables...")
+        
+        colleges_inserted = 0
+        courses_inserted = 0
+        mappings_inserted = 0
+        colleges_skipped = 0
+        
+        # Track courses we've already inserted (by name) to avoid duplicates
+        course_name_to_id: Dict[str, str] = {}
+        
+        for college in colleges_data:
+            college_name = college.get("name", "").strip()
+            if not college_name:
+                continue
+            
+            # Check if college already exists
+            existing_college = supabase.table("st_college").select("id").eq("name", college_name).limit(1).execute()
+            
+            if existing_college.data and len(existing_college.data) > 0:
+                logger.debug(f"College '{college_name}' already exists, skipping...")
+                colleges_skipped += 1
+                college_id = existing_college.data[0]["id"]
+            else:
+                # Insert college into st_college
+                # Format description to match existing data: "{name} is located in {city}, {state}. Type: {type}"
+                city_val = college.get("city", "").strip()
+                type_val = college.get("type", "").strip()
+                description = f"{college_name} is located in {city_val}, . Type: {type_val}"
+                
+                college_record = {
+                    "name": college_name,
+                    "description": description,
+                    "city": city_val,
+                    "type": type_val,
+                }
+                
+                college_response = supabase.table("st_college").insert(college_record).execute()
+                
+                if not college_response.data:
+                    logger.warning(f"Failed to insert college: {college_name}")
+                    continue
+                
+                college_id = college_response.data[0]["id"]
+                colleges_inserted += 1
+                logger.debug(f"Inserted college: {college_name} (ID: {college_id})")
+            
+            # Process courses for this college
+            courses = college.get("courses", [])
+            for course in courses:
+                course_name = course.get("name", "").strip()
+                if not course_name:
+                    continue
+                
+                # Check if we've already processed this course
+                if course_name in course_name_to_id:
+                    course_id = course_name_to_id[course_name]
+                else:
+                    # Check if course already exists in DB
+                    existing_course = supabase.table("st_course").select("id").eq("name", course_name).limit(1).execute()
+                    
+                    if existing_course.data and len(existing_course.data) > 0:
+                        course_id = existing_course.data[0]["id"]
+                        course_name_to_id[course_name] = course_id
+                    else:
+                        # Insert course into st_course
+                        course_record = {
+                            "name": course_name,
+                            "description": course.get("degree_level", "") or "",
+                            "duration": course.get("duration", ""),
+                            "degree_level": course.get("degree_level", ""),
+                            "annual_fees": course.get("annual_fees", ""),
+                        }
+                        
+                        course_response = supabase.table("st_course").insert(course_record).execute()
+                        
+                        if not course_response.data:
+                            logger.warning(f"Failed to insert course: {course_name}")
+                            continue
+                        
+                        course_id = course_response.data[0]["id"]
+                        course_name_to_id[course_name] = course_id
+                        courses_inserted += 1
+                        logger.debug(f"Inserted course: {course_name} (ID: {course_id})")
+                
+                # Create mapping in st_college_courses (check if not exists)
+                existing_mapping = supabase.table("st_college_courses") \
+                    .select("id") \
+                    .eq("college_id", college_id) \
+                    .eq("course_id", course_id) \
+                    .limit(1) \
+                    .execute()
+                
+                if not existing_mapping.data or len(existing_mapping.data) == 0:
+                    mapping_record = {
+                        "college_id": college_id,
+                        "course_id": course_id
+                    }
+                    
+                    mapping_response = supabase.table("st_college_courses").insert(mapping_record).execute()
+                    
+                    if mapping_response.data:
+                        mappings_inserted += 1
+        
+        msg = f"Staging tables updated: {colleges_inserted} colleges inserted, {colleges_skipped} skipped, {courses_inserted} courses, {mappings_inserted} mappings"
+        logger.info(msg)
+        
+        # Update job status if provided
+        if job_id:
+            try:
+                supabase.table("scrape_jobs").update({
+                    "save_success": True,
+                    "save_message": msg
+                }).eq("id", job_id).execute()
+            except Exception as e:
+                logger.error(f"Failed to update job status: {e}")
+        
+        return True, msg
+        
+    except Exception as e:
+        msg = f"Error saving to staging tables: {e}"
+        logger.error(msg)
+        return False, msg
+
+
 def save_to_csv(data: List[Dict], output_dir: str, filename: str):
     """Save data to CSV file"""
+    # Skip file writes in serverless mode (read-only file system)
+    if SERVERLESS_MODE:
+        logger.info("SERVERLESS_MODE: Skipping CSV file write (read-only file system)")
+        return None
+    
     os.makedirs(output_dir, exist_ok=True)
     
     if data:
@@ -348,7 +510,7 @@ def save_to_json(
         university: University filter for Supabase
         job_id: Supabase Job ID to update with save status
     """
-    os.makedirs(output_dir, exist_ok=True)
+    filepath = None
     
     if data:
         logger.info(f"Removing duplicates from {len(data)} records...")
@@ -362,11 +524,16 @@ def save_to_json(
         # Prepare JSON structure with 'colleges' key
         json_data = {"colleges": transformed_data}
         
-        filepath = os.path.join(output_dir, filename)
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(json_data, f, ensure_ascii=False, indent=2)
+        # Write file only if not in serverless mode
+        if not SERVERLESS_MODE:
+            os.makedirs(output_dir, exist_ok=True)
+            filepath = os.path.join(output_dir, filename)
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(json_data, f, ensure_ascii=False, indent=2)
+            logger.info(f"JSON saved to {filepath}")
+        else:
+            logger.info("SERVERLESS_MODE: Skipping JSON file write (read-only file system)")
         
-        logger.info(f"JSON saved to {filepath}")
         logger.info(f"Total unique records: {len(transformed_data)}")
         
         # Save to Supabase when explicitly requested
@@ -467,6 +634,10 @@ def append_to_csv(data: Dict, output_dir: str, filename: str):
     Creates file with header if it doesn't exist.
     Checks for duplicates based on College Name before appending.
     """
+    # Skip file writes in serverless mode (read-only file system)
+    if SERVERLESS_MODE:
+        return True
+    
     os.makedirs(output_dir, exist_ok=True)
     filepath = os.path.join(output_dir, filename)
     
@@ -497,6 +668,10 @@ def append_to_jsonl(data: Dict, output_dir: str, filename: str):
     Append a single record to a JSONL file (one JSON object per line).
     Efficient O(1) append, crash-safe.
     """
+    # Skip file writes in serverless mode (read-only file system)
+    if SERVERLESS_MODE:
+        return True
+    
     os.makedirs(output_dir, exist_ok=True)
     filepath = os.path.join(output_dir, filename)
     
